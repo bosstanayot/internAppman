@@ -11,7 +11,7 @@ import android.widget.TextView
 import appman.intern.bosstanayot.internappman.R
 import appman.intern.bosstanayot.internappman.dataList.model.Datas
 
-class DataAdapter(val context: Context, val dataList: List<Datas>): RecyclerView.Adapter<DataAdapter.Holder>()  {
+class DataAdapter(val context: Context, val dataList: List<Datas>?) : RecyclerView.Adapter<DataAdapter.Holder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val inflater: View = LayoutInflater.from(parent.context).inflate(R.layout.list_item, null, false)
@@ -19,22 +19,22 @@ class DataAdapter(val context: Context, val dataList: List<Datas>): RecyclerView
     }
 
     override fun getItemCount(): Int {
-        return dataList.size
+        return dataList!!.size
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        holder.textView.setText(dataList[position].docType)
+        holder.textView.text = dataList?.get(position)?.docType
         holder.cardView.setOnClickListener {
-             AlertDialog.Builder(context)
-                     .setMessage(dataList[position].description.th + "/" + dataList[position].description.en)
-                     .setCancelable(true)
-                     .show()
+            AlertDialog.Builder(context)
+                    .setMessage(dataList?.get(position)?.description?.th + "/" + (dataList?.get(position)?.description?.en))
+                    .setCancelable(true)
+                    .show()
         }
     }
 
     inner class Holder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var textView = itemView.findViewById<TextView>(R.id.doc_type)
-        var cardView = itemView.findViewById<CardView>(R.id.card_view)
+        var textView: TextView = itemView.findViewById(R.id.doc_type)
+        var cardView: CardView = itemView.findViewById(R.id.card_view)
     }
 
 }
